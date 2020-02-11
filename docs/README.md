@@ -1,0 +1,1 @@
+- [Basic](https://github.com/raphaelameaume/lemonade-router/blob/master/docs/BASIC.md)
