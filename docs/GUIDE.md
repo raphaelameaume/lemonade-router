@@ -1,5 +1,7 @@
 #### <sup>[lemonade-router](../README.md) → [Documentation](./README.md) → Guide</sup>
 
+---
+
 - [Register a view](#register-a-view)
 - [Register a transition](#register-a-transition)
 - [Handle URL parameters](#handle-url-parameters)
