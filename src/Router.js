@@ -35,8 +35,7 @@ function preventClick(event, element) {
 function Router({
     defaultTransition = DefaultTransition(),
     basename = '',
-    scrollRestoration = 'manual',
-    ignoreClass = 'no-router'
+    scrollRestoration = 'auto',
 } = {}) {
     const matches = [];
     const transitions = [];
@@ -46,6 +45,7 @@ function Router({
     let prevView = null;
     let nextLocation = null;
     let prevPathname = null;
+    let ignoreQuery = null;
 
     window.history.scrollRestoration = scrollRestoration;
 
@@ -164,7 +164,8 @@ function Router({
         }
     }
 
-    function listen({ clickEvents = false } = {}) {
+    function listen({ clickEvents = false, ignoreClass } = {}) {
+        ignoreQuery = ignoreClass;
         prevPathname = getPath(window.location.href);
 
         history.listen((location) => {
@@ -183,7 +184,7 @@ function Router({
                     target = target.parentNode;
                 }
 
-                if (target && preventClick(event, target) && !target.classList.contains(ignoreClass)) {
+                if (target && preventClick(event, target) && !target.classList.contains(ignoreQuery)) {
                     event.preventDefault();
                     event.stopPropagation();
 

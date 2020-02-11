@@ -6,35 +6,6 @@ import { getPath, log, loadView, appendView, removeView } from "./helpers.js";
 import { Router } from "./Router.js";
 import { TransitionDOM } from "./TransitionDOM.js";
 
-function retrieveHref(element) {
-    if (element) {
-        const xlink = element.getAttribute && element.getAttribute('xlink:href');
-
-        if (typeof xlink === 'string') {
-            return xlink;
-        }
-
-        if (element.href) {
-            return element.href;
-        }
-    }
-
-    return false;
-}
-
-function preventClick(event, element) {
-    const href = retrieveHref(element);
-    const withKey = event.which > 1 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey;
-    const blankTarget = element.target && element.target === '_blank';
-    const differentDomain = window.location.protocol !== element.protocol || window.location.hostname !== element.hostname;
-    const isDownload = element.getAttribute('download') === 'string';
-    const isMailto = href && href.includes('mailto:');
-
-    const shouldPrevent = !withKey && !blankTarget && !differentDomain && !isDownload && !isMailto;
-
-    return shouldPrevent;
-}
-
 export function RouterDOM({
     wrapperClass = '.wrapper',
     containerClass = '.container',
