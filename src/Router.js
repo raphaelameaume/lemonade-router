@@ -45,7 +45,7 @@ function Router({
     let prevView = null;
     let nextLocation = null;
     let prevPathname = null;
-    let ignoreQuery = null;
+    let ignoreClass = null;
 
     window.history.scrollRestoration = scrollRestoration;
 
@@ -164,8 +164,8 @@ function Router({
         }
     }
 
-    function listen({ clickEvents = false, ignoreClass } = {}) {
-        ignoreQuery = ignoreClass;
+    function listen({ clickEvents = false, clickIgnoreClass = 'no-router' } = {}) {
+        ignoreClass = clickIgnoreClass;
         prevPathname = getPath(window.location.href);
 
         history.listen((location) => {
@@ -184,7 +184,7 @@ function Router({
                     target = target.parentNode;
                 }
 
-                if (target && preventClick(event, target) && !target.classList.contains(ignoreQuery)) {
+                if (target && preventClick(event, target) && !target.classList.contains(ignoreClass)) {
                     event.preventDefault();
                     event.stopPropagation();
 

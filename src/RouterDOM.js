@@ -1,8 +1,4 @@
-import { on } from "../events.js";
-import { Thread } from "../Thread.js";
-
-import { LOAD_VIEW, APPEND_VIEW, REMOVE_VIEW } from "./events.js";
-import { getPath, log, loadView, appendView, removeView } from "./helpers.js";
+import { getPath, loadView, appendView, removeView } from "./helpers.js";
 import { Router } from "./Router.js";
 import { TransitionDOM } from "./TransitionDOM.js";
 
@@ -42,8 +38,6 @@ export function RouterDOM({
             if (cacheEnabled) {
                 cache.set(nextLocation, html);
             }
-
-            log('view loaded.');
         }
 
         const temp = document.createElement('div');
@@ -61,13 +55,11 @@ export function RouterDOM({
         resolve($nextContainer);
     }
 
-    function appendToWrapper() {
-        log('append', $wrapper, $nextContainer);
+    function appendToWrapper()
         $wrapper.appendChild($nextContainer);
     }
 
-    function removeFromWrapper() {
-        log('remove', $wrapper, $prevContainer);
+    function removeFromWrapper()
         $prevContainer.parentNode.removeChild($prevContainer);
     }
 
