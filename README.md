@@ -1,6 +1,6 @@
 # lemonade-router
 
-`lemonade-router` is a minimal non-opiniated routing library to create websites and interactive experiences with custom transitions. It is heavily inspired by [Barba.js](https://github.com/barbajs/barba) and [React Router](https://github.com/ReactTraining/react-router) and uses [history](https://github.com/barbajs/barba) under the hood.
+`lemonade-router` is a minimal non-opiniated routing library to create websites and interactive experiences with custom transitions. It is heavily inspired by [Barba.js](https://github.com/barbajs/barba) and [React Router](https://github.com/ReactTraining/react-router) and uses [history](https://npmjs.com/package/history) under the hood.
 
 - [Documentation](https://github.com/raphaelameaume/lemonade-router/tree/master/docs/README.md)
 - [Examples](https://github.com/raphaelameaume/lemonade-router/tree/master/demo)
