@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Contact - lemonade-router</title>
+    <style>
+        .header {
+            background: #f0f0f0;
+            border-radius: 2px;
+            display: flex;
+            justify-content: space-evenly;
+            padding: 20px 0;
+        }
+
+        .link {
+            text-transform: uppercase;
+        }
+
+        .view {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <a href="/demo/basic/" class="link">Home</a>
+        <a href="/demo/basic/about" class="link">About</a>
+        <a href="/demo/basic/contact" class="link">Contact</a>
+    </header>
+    <section class="view view--home">
+        <h1 class="view__title">Home</h1>
+    </section>
+    <section class="view view--about">
+        <h1 class="view__title">About</h1>
+    </section>
+    <section class="view view--contact">
+        <h1 class="view__title">Contact</h1>
+    </section>
+
+    <script src="../../lib/lemonade-router.umd.js"></script>
+    <script>
+        function enterView(view) {
+            view.style.display = 'flex';
+        }
+
+        function leaveView(view) {
+            view.style.display = 'none';
+        }
+
+        function Home() {
+            let view = document.querySelector('.view--home');
+
+            function enter() {
+                console.log('Home :: enter');
+                enterView(view);
+            }
+
+            function leave() {
+                console.log('Home :: enter');
+                leaveView(view);
+            }
+
+            return { enter, leave };
+        }
+
+        function About() {
+            let view = document.querySelector('.view--about');
+
+            function enter() {
+                console.log('About :: enter');
+                enterView(view);
+            }
+
+            function leave() {
+                console.log('About :: enter');
+                leaveView(view);
+            }
+
+            return { enter, leave };
+        }
+
+        function Contact() {
+            let view = document.querySelector('.view--contact');
+
+            function enter() {
+                console.log('Contact :: enter');
+                enterView(view);
+            }
+
+            function leave() {
+                console.log('Contact :: enter');
+                leaveView(view);
+            }
+
+            return { enter, leave };
+        }
+
+        let router = LemonadeRouter({
+            basename: '/demo/basic',
+        });
+        router.view(['/', '/home'], Home);
+        router.view('/about', About);
+        router.view('/contact', Contact);
+        router.listen({
+            clickEvents: true,
+        });
+    </script>
+</body>
+
+</html>

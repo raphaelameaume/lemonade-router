@@ -1,0 +1,40 @@
+{
+  "name": "lemonade-router",
+  "version": "0.1.0",
+  "description": "",
+  "main": "lib/lemonade-router.cjs.js",
+  "browser": "lib/lemonade-router.umd.js",
+  "module": "lib/lemonade-router.es.js",
+  "scripts": {
+    "start": "http-server -p 3002 ./ -c-1",
+    "dev": "NODE_ENV='development' rollup -c -w",
+    "build": "NODE_ENV='production' rollup -c"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/raphaelameaume/lemonade-router.git"
+  },
+  "keywords": [
+    "routing",
+    "client-side",
+    "fetch"
+  ],
+  "author": "Raphaël Améaume",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/raphaelameaume/lemonade-router/issues"
+  },
+  "homepage": "https://github.com/raphaelameaume/lemonade-router#readme",
+  "dependencies": {
+    "history": "^4.10.1",
+    "path-to-regexp": "^6.1.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^11.0.2",
+    "@rollup/plugin-node-resolve": "^7.1.1",
+    "@rollup/plugin-replace": "^2.3.1",
+    "rollup": "^1.31.0",
+    "rollup-plugin-livereload": "^1.0.4",
+    "rollup-plugin-terser": "^5.2.0"
+  }
+}

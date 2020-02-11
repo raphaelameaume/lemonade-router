@@ -1,0 +1,126 @@
+import { on } from "../events.js";
+import { Thread } from "../Thread.js";
+
+import { LOAD_VIEW, APPEND_VIEW, REMOVE_VIEW } from "./events.js";
+import { getPath, log, loadView, appendView, removeView } from "./helpers.js";
+import { Router } from "./Router.js";
+import { TransitionDOM } from "./TransitionDOM.js";
+
+function retrieveHref(element) {
+    if (element) {
+        const xlink = element.getAttribute && element.getAttribute('xlink:href');
+
+        if (typeof xlink === 'string') {
+            return xlink;
+        }
+
+        if (element.href) {
+            return element.href;
+        }
+    }
+
+    return false;
+}
+
+function preventClick(event, element) {
+    const href = retrieveHref(element);
+    const withKey = event.which > 1 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey;
+    const blankTarget = element.target && element.target === '_blank';
+    const differentDomain = window.location.protocol !== element.protocol || window.location.hostname !== element.hostname;
+    const isDownload = element.getAttribute('download') === 'string';
+    const isMailto = href && href.includes('mailto:');
+
+    const shouldPrevent = !withKey && !blankTarget && !differentDomain && !isDownload && !isMailto;
+
+    return shouldPrevent;
+}
+
+export function RouterDOM({
+    wrapperClass = '.wrapper',
+    containerClass = '.container',
+    ignoreClass = 'no-router',
+    cacheEnabled = true,
+    defaultTransition = TransitionDOM(),
+    basename = ''
+} = {}) {
+    let router = Router({ defaultTransition, basename, ignoreClass });
+    let $wrapper = document.querySelector(wrapperClass);
+    let $prevContainer = $wrapper.querySelector(containerClass);
+    let $nextContainer = null;
+
+    let cache = new Map();
+
+    function listen({ clickEvents = false } = {}) {
+        router.listen({ clickEvents });
+
+        if (cacheEnabled) {
+            cache.set(getPath(window.location.href), document.documentElement.innerHTML);
+        }
+    }
+
+    async function load({ resolve, reject }) {
+        let html;
+        let nextLocation = router.nextLocation();
+
+        if (cacheEnabled && cache.get(nextLocation)) {
+            html = cache.get(nextLocation);
+        } else {
+            const response = await RouterDOM.fetch(nextLocation);
+            html = response.result;
+
+            if (cacheEnabled) {
+                cache.set(nextLocation, html);
+            }
+
+            log('view loaded.');
+        }
+
+        const temp = document.createElement('div');
+        temp.innerHTML = html;
+
+        const title = temp.querySelector('title');
+
+        if (title) {
+            document.title = title.textContent;
+        }
+
+        $prevContainer = $wrapper.querySelector(containerClass);
+        $nextContainer = temp.querySelector(containerClass);
+
+        resolve($nextContainer);
+    }
+
+    function appendToWrapper() {
+        log('append', $wrapper, $nextContainer);
+        $wrapper.appendChild($nextContainer);
+    }
+
+    function removeFromWrapper() {
+        log('remove', $wrapper, $prevContainer);
+        $prevContainer.parentNode.removeChild($prevContainer);
+    }
+
+    on(LOAD_VIEW, load);
+    on(APPEND_VIEW, appendToWrapper);
+    on(REMOVE_VIEW, removeFromWrapper);
+
+    return {
+        listen,
+        match: router.match,
+        view: router.view,
+        transition: router.transition,
+        goTo: router.goTo,
+    }
+}
+
+RouterDOM.fetch = async () => {
+    let html = await Thread.fetch(nextLocation, {
+        format: 'text',
+    });
+
+    return html;
+};
+
+RouterDOM.loadView = loadView;
+RouterDOM.appendView = appendView;
+RouterDOM.removeView = removeView;
