@@ -1,1 +1,1 @@
-- [Basic](/BASIC.md)
+- [Basic](https://github.com/raphaelameaume/lemonade-router/tree/master/docs/BASIC.md)
