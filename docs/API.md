@@ -19,7 +19,8 @@ Register a view to the Router. If the current URL matches the `url` param, it wi
 - `url`: A string or an array of string reflecting exact URLs
 - `fn`: Must return an instance of a view
 
-[Example](./GUIDE.md#register-a-view)
+Guide:
+- [Register a view](./GUIDE.md#register-a-view)
 
 ### router.transition(from, to, fn, backAndForth)
 Register a transition to the router defined by source and destination URLs
@@ -28,7 +29,8 @@ Register a transition to the router defined by source and destination URLs
 - `fn`: a function that returns a class or an object implementing a `play(prevView, nextView)` method (can be async) like in [DefaultTransition]
 - `backAndForth`: a boolean defining if the transition should be played in reverse too. Default to `true`.
 
-[Example](./GUIDE.md#register-a-transition)
+Guide:
+- [Register a transition](./GUIDE.md#register-a-transition)
 
 
 ### router.match(pattern, fn)
@@ -37,5 +39,6 @@ The router will resolve views after executing matching callbacks so you can add 
 - `options.pattern`: A string or an array of string of patterns. This uses [path-to-regexp](https://www.npmjs.com/package/path-to-regexp) under the hood.
 - `fn`: A sync or async function to be executed on match.
 
-[URL parameters example](./GUIDE.md#handle-URL-parameters)
-[Code splitting example](./GUIDE.md#code-splitting)
+Guides:
+- [Handle URL parameters](./GUIDE.md#handle-URL-parameters)
+- [Code splitting](./GUIDE.md#code-splitting)
