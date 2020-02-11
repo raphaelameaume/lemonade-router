@@ -36,6 +36,7 @@ function Router({
     defaultTransition = DefaultTransition(),
     basename = '',
     scrollRestoration = 'auto',
+    transitionParams = {},
 } = {}) {
     const matches = [];
     const transitions = [];
@@ -144,16 +145,16 @@ function Router({
                         if ((matchFrom && matchTo) || (reverseMatchFrom && reverseMatchTo)) {
                             const transition = await fn();
 
-                            await transition.play(prevView, nextView);
+                            await transition.play(prevView, nextView, transitionParams);
 
                             prevView = nextView;
                         } else {
-                            await defaultTransition.play(prevView, nextView);
+                            await defaultTransition.play(prevView, nextView, transitionParams);
                             prevView = nextView;
                         }
                     }
                 } else {
-                    await defaultTransition.play(prevView, nextView);
+                    await defaultTransition.play(prevView, nextView, transitionParams);
                     prevView = nextView;
                 }
             } else {

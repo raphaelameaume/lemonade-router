@@ -3,29 +3,40 @@ import { Router } from "./Router.js";
 import { TransitionDOM } from "./TransitionDOM.js";
 
 export function RouterDOM({
-    wrapperClass = '.wrapper',
-    containerClass = '.container',
+    wrapperClass = '.lemonade-wrapper',
+    containerClass = '.lemonade-container',
     ignoreClass = 'no-router',
     cacheEnabled = true,
     defaultTransition = TransitionDOM(),
+    transitionParams = {},
     basename = ''
 } = {}) {
-    let router = Router({ defaultTransition, basename, ignoreClass });
-    let $wrapper = document.querySelector(wrapperClass);
-    let $prevContainer = $wrapper.querySelector(containerClass);
-    let $nextContainer = null;
-
+    let router = Router({
+        defaultTransition,
+        basename,
+        ignoreClass,
+        transitionParams: {
+            ...transitionParams,
+            loadView,
+            appendView,
+            removeView,
+        }
+    });
     let cache = new Map();
+    let $wrapper, $prevContainer, $nextContainer;
 
-    function listen({ clickEvents = false } = {}) {
-        router.listen({ clickEvents });
+    function listen({ clickEvents = false, clickIgnoreClass = 'no-router' } = {}) {
+        $wrapper = document.querySelector(wrapperClass);
+        $prevContainer = $wrapper.querySelector(containerClass);
+
+        router.listen({ clickEvents, clickIgnoreClass });
 
         if (cacheEnabled) {
             cache.set(getPath(window.location.href), document.documentElement.innerHTML);
         }
     }
 
-    async function load({ resolve, reject }) {
+    async function loadView() {
         let html;
         let nextLocation = router.nextLocation();
 
@@ -52,23 +63,19 @@ export function RouterDOM({
         $prevContainer = $wrapper.querySelector(containerClass);
         $nextContainer = temp.querySelector(containerClass);
 
-        resolve($nextContainer);
+        return $nextContainer;
     }
 
-    function appendToWrapper()
+    function appendView() {
         $wrapper.appendChild($nextContainer);
     }
 
-    function removeFromWrapper()
+    function removeView() {
         $prevContainer.parentNode.removeChild($prevContainer);
     }
 
-    on(LOAD_VIEW, load);
-    on(APPEND_VIEW, appendToWrapper);
-    on(REMOVE_VIEW, removeFromWrapper);
-
     return {
-        listen,
+        listen: listen,
         match: router.match,
         view: router.view,
         transition: router.transition,
@@ -76,14 +83,17 @@ export function RouterDOM({
     }
 }
 
-RouterDOM.fetch = async () => {
-    let html = await Thread.fetch(nextLocation, {
-        format: 'text',
-    });
+RouterDOM.fetch = async (url) => {
+    let response = await fetch(url);
+    let html = await response.text();
 
     return html;
 };
 
-RouterDOM.loadView = loadView;
-RouterDOM.appendView = appendView;
-RouterDOM.removeView = removeView;
+// RouterDOM.fetch = async () => {
+//     let html = await Thread.fetch(nextLocation, {
+//         format: 'text',
+//     });
+
+//     return html;
+// };
