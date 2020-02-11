@@ -14,35 +14,10 @@ Start listening to POPSTATE events
 
 ### router.view(url, fn)
 Register a view to the Router. If the current URL matches the `url` param, it will trigger `fn`.
-- `url`: A string or an array of different strings
+- `url`: A string or an array of string reflecting exact URLs
 - `fn`: Must return an instance of a view
 
-Example:
-```js
-/* with functions */
-function Home() {
-    function enter() {
-        console.log('Home :: enter');
-    }
-
-    function leave() {
-        console.log('Home :: enter');
-    }
-
-    return { enter, leave };
-}
-
-router.view('/', () => Home());
-
-/* with classes */
-class Home  {
-    constructor() {}
-    enter() {}
-    leave() {}
-}
-
-router.view('/' , () => return new Home());
-```
+Example
 
 ### router.transition(from, to, fn, backAndForth)
 Register a transition to the router defined by source and destination URLs
@@ -51,36 +26,14 @@ Register a transition to the router defined by source and destination URLs
 - `fn`: a function that returns a class or an object implementing a `play(prevView, nextView)` method (can be async) like in [DefaultTransition]
 - `backAndForth`: a boolean defining if the transition should be played in reverse too. Default to `true`.
 
-Example:
-```js
-/* with functions*/
-function CustomTransition() {
-    return {
-        play: (prevView, nextView) {
-            // do sync or async stuff
-            if (prevView) { // prevView is null on start
-                prevView.leave(nextView)
-            }
-
-            nextView.enter(prevView);
-        }
-    }
-}
-
-router.transition('/about', '/news', () => CustomTransition(), false);
-
-/* with classes */
-class CustomTransition() {
-    constructor() {}
-    play(prevView, nextView) {}
-}
-
-router.transition('/news', '/', () => new CustomTransition());
-```
-As you can see, `lemonade-router` doesn't enforce a particuliar naming or logic!  
+Example
 
 
 ### router.match(pattern, fn)
+Register a pattern and execute `fn` on match. Useful for URL with parameters like `/news/:slug` or code splitting.
+The router will resolve views after executing matching callbacks so you can add view in `fn`.
+- `options.pattern`: A string or an array of string of patterns. This uses [path-to-regexp](https://www.npmjs.com/package/path-to-regexp) under the hood.
+- `fn`: A sync or async function to be executed on match.
 
-
-- [Basic](https://github.com/raphaelameaume/lemonade-router/tree/master/docs/Basic.md)
+[URL parameters example](https://github.com/raphaelameaume/lemonade-router/tree/master/docs/GUIDE.md#handle-URL-parameters)
+[Code splitting example](https://github.com/raphaelameaume/lemonade-router/tree/master/docs/GUIDE.md#code-splitting)
