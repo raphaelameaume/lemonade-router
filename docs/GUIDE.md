@@ -1,8 +1,8 @@
-# Guide
+#### <sup>[lemonade-router](../README.md) → [Documentation](./README.md) → Guide</sup>
 
 - [Register a view](#register-a-view)
 - [Register a transition](#register-a-transition)
-- [Handle URL parameters](#handle-URL-paramaters)
+- [Handle URL parameters](#handle-url-parameters)
 - [Code splitting](#code-splitting)
 
 ## Register a view
@@ -59,16 +59,6 @@ class CustomTransition() {
 router.transition('/news', '/', () => new CustomTransition());
 ```
 
-## Handle URL parameters
-```js
-/* URL parameters */
-router.match('/news/:slug', async ({ url, params }) => {
-    let News = await import('./News.js');
-
-    router.view(url, () => News(params.slug));
-}) 
-```
-
 ## Code Splitting
 ```js
 router.match('/about', async ({ url }) => {
@@ -76,6 +66,16 @@ router.match('/about', async ({ url }) => {
 
     router.view(url, () => About());
 })
+```
+
+## Handle URL parameters
+`router.match` supports async functions and return URL parameters as an object
+```js
+router.match('/news/:slug', async ({ url, params }) => {
+    let News = await import('./News.js');
+
+    router.view(url, () => News(params.slug));
+}) 
 ```
 
 
