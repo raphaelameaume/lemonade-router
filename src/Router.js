@@ -166,7 +166,7 @@ function Router({
     }
 
     /* 
-    * Start listening to URL changes 
+    * Start listening to URL changes
     * @param {object} { clickEvents, clickIgnoreClass }
     */
     function listen({ clickEvents = false, clickIgnoreClass = 'no-router' } = {}) {
