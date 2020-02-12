@@ -5,9 +5,10 @@
 ## Router
 
 ### router = Router([options])
-- `options.defaultTransition`: An object or a class implementing a `play(prevView, nextView)` method. Default to [DefaultTransition]
+- `options.defaultTransition`: An object or a class implementing a `play(prevView, nextView, transitionParams)` method. Default to [DefaultTransition]
 - `options.scrollRestoration`: Option to change `history.scrollRestoration`. Check the [documentation](https://developers.google.com/web/updates/2015/09/history-api-scroll-restoration) to see available options. Default to auto.
 - `options.basename`: Set a prefix to URL before navigating to an other url. Useful for subdomain with relative links.
+- `options.transitionParams`: An object that will be passed to `transition.play`
 
 ### router.listen([options])
 Start listening to POPSTATE events

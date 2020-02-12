@@ -1,17 +1,3 @@
-// import { LOAD_VIEW, APPEND_VIEW, REMOVE_VIEW } from "./events.js";
-
-export function loadView() {
-    return emitAsync(LOAD_VIEW);
-}
-
-export function appendView() {
-    emit(APPEND_VIEW);
-}
-
-export function removeView() {
-    emit(REMOVE_VIEW);
-}
-
 export const getPath = (url) => {
     return parse(url).path;
 };

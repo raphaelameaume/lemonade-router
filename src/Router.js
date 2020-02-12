@@ -165,6 +165,9 @@ function Router({
         }
     }
 
+    /* 
+    * @param {object} { clickEvents, clickIgnoreClass }
+    */
     function listen({ clickEvents = false, clickIgnoreClass = 'no-router' } = {}) {
         ignoreClass = clickIgnoreClass;
         prevPathname = getPath(window.location.href);

@@ -1,13 +1,13 @@
-import { getPath, loadView, appendView, removeView } from "./helpers.js";
-import { Router } from "./Router.js";
-import { TransitionDOM } from "./TransitionDOM.js";
+import Router from "./Router.js";
+import { getPath } from "./helpers.js";
+import { DefaultTransitionDOM } from "./DefaultTransitionDOM.js";
 
-export function RouterDOM({
+function RouterDOM({
     wrapperClass = '.lemonade-wrapper',
     containerClass = '.lemonade-container',
     ignoreClass = 'no-router',
     cacheEnabled = true,
-    defaultTransition = TransitionDOM(),
+    defaultTransition = DefaultTransitionDOM(),
     transitionParams = {},
     basename = ''
 } = {}) {
@@ -89,6 +89,8 @@ RouterDOM.fetch = async (url) => {
 
     return html;
 };
+
+export default RouterDOM;
 
 // RouterDOM.fetch = async () => {
 //     let html = await Thread.fetch(nextLocation, {
