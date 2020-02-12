@@ -1,25 +1,29 @@
-export const getPath = (url) => {
+export function getPath(url) {
     return parse(url).path;
-};
+}
 
-export const getHref = () => window.location.href;
+export function getHref() {
+    return window.location.href;
+}
 
-export const getOrigin = () => window.location.origin;
+export function getOrigin() {
+    return window.location.origin;
+}
 
-export const parse = (url) => {
+export function parse(url) {
     let path = url.replace(getOrigin(), '');
 
     return { path };
-};
+}
 
-export const hasBasename = (path, prefix) => {
+export function hasBasename(path, prefix) {
     return new RegExp('^' + prefix + '(\\/|\\?|#|$)', 'i').test(path);
-};
+}
 
-export const stripBasename = (path, prefix) => {
+export function stripBasename(path, prefix) {
     return hasBasename(path, prefix) ? path.substr(prefix.length) : path;
-};
+}
 
-export const addBasename = (path, prefix) => {
+export function addBasename(path, prefix) {
     return hasBasename(path, prefix) ? path : (prefix + path);
-};
+}
