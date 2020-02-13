@@ -1,6 +1,6 @@
 import { createBrowserHistory } from "history";
 import { pathToRegexp } from "path-to-regexp";
-import { getPath, addBasename, retrieveHref, preventClick } from "./helpers.js";
+import { getPath, stripBasename, retrieveHref, preventClick } from "./helpers.js";
 import { DefaultTransition } from "./DefaultTransition.js";
 
 function Router({
@@ -13,7 +13,7 @@ function Router({
     const transitions = [];
     const views = new Map();
 
-    let history = createBrowserHistory();
+    let history = createBrowserHistory({ basename });
     let prevView = null;
     let nextLocation = null;
     let prevPathname = null;
@@ -30,8 +30,6 @@ function Router({
         if (!Array.isArray(urls)) {
             urls = [urls];
         }
-
-        urls = urls.map(url => addBasename(url, basename));
 
         matches.push({ urls, fn });
     }
@@ -63,8 +61,7 @@ function Router({
         }
 
         for (let i = 0; i < urls.length; i++) {
-            let url = addBasename(urls[i], basename);
-            views.set(url, view);
+            views.set(urls[i], view);
         }
     }
 
@@ -73,12 +70,12 @@ function Router({
 
         if (path === window.location.pathname) return;
 
-        history.push(addBasename(path, basename));
+        history.push(path);
     }
 
     async function apply(location, prevPathname) {
         try {
-            const pathname = addBasename(location.pathname, basename);
+            const pathname = stripBasename(location.pathname, basename);
 
             let nextView;
 

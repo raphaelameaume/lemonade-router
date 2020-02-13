@@ -16,10 +16,9 @@ export function stripBasename(path, prefix) {
     return hasBasename(path, prefix) ? path.substr(prefix.length) : path;
 }
 
-export function addBasename(path, prefix) {
-    return hasBasename(path, prefix) ? path : (prefix + path);
-}
-
+/*
+* https://github.com/barbajs/barba/blob/1.x/src/Pjax/Pjax.js#L179
+*/ 
 export function retrieveHref(element) {
     if (element) {
         const xlink = element.getAttribute && element.getAttribute('xlink:href');
@@ -36,6 +35,9 @@ export function retrieveHref(element) {
     return false;
 }
 
+/*
+* https://github.com/barbajs/barba/blob/1.x/src/Pjax/Pjax.js#L239
+*/
 export function preventClick(event, element) {
     const href = retrieveHref(element);
     const withKey = event.which > 1 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey;

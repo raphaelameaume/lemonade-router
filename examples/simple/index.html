@@ -26,9 +26,9 @@
 
 <body>
     <header class="header">
-        <a href="/demo/basic/" class="link">Home</a>
-        <a href="/demo/basic/about" class="link">About</a>
-        <a href="/demo/basic/contact" class="link">Contact</a>
+        <a href="/" class="link">Home</a>
+        <a href="/about" class="link">About</a>
+        <a href="/contact" class="link">Contact</a>
     </header>
     <section class="view view--home">
         <h1 class="view__title">Home</h1>
@@ -99,7 +99,7 @@
         }
 
         let router = Lemonade.Router({
-            basename: '/demo/basic',
+            basename: '/examples/simple',
         });
         router.view(['/', '/home'], Home);
         router.view('/about', About);
