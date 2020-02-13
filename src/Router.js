@@ -196,8 +196,8 @@ function Router({
         view,
         listen,
         goTo,
-        goBack: history.goBack,
-        goForward: history.goForward,
+        prev: history.goBack,
+        next: history.goForward,
         nextLocation: () => nextLocation,
     }
 }
