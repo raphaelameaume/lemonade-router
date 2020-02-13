@@ -1,2 +1,2 @@
-export { default as Router } from "./Router.js";
-export { default as RouterDOM } from "./RouterDOM.js";
+export { Router } from "./Router.js";
+export { RouterDOM } from "./RouterDOM.js";

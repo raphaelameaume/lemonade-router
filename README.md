@@ -14,7 +14,7 @@ It is built using ES6 features.
 ### Usage
 
 ```js
-import Router from "lemonade-router"
+import { Router } from "lemonade-router";
 
 let router = Router();
 

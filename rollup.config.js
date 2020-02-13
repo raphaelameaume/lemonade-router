@@ -25,7 +25,7 @@ export default [
     {
         input: 'src/Router.js',
         output: {
-            name: 'LemonadeRouter',
+            name: 'Lemonade',
             file: pkg.browser,
             format: 'umd'
         },
@@ -42,7 +42,7 @@ export default [
     {
         input: 'src/RouterDOM.js',
         output: {
-            name: 'LemonadeRouterDOM',
+            name: 'Lemonade',
             file: 'lib/lemonade-router-dom.umd.js',
             format: 'umd'
         },

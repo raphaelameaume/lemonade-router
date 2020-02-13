@@ -1,4 +1,4 @@
-import Router from "./Router.js";
+import { Router } from "./Router.js";
 import { getPath } from "./helpers.js";
 import { DefaultTransitionDOM } from "./DefaultTransitionDOM.js";
 
@@ -90,7 +90,7 @@ RouterDOM.fetch = async (url) => {
     return html;
 };
 
-export default RouterDOM;
+export { RouterDOM };
 
 // RouterDOM.fetch = async () => {
 //     let html = await Thread.fetch(nextLocation, {
