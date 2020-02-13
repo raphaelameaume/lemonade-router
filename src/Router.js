@@ -1,36 +1,7 @@
 import { createBrowserHistory } from "history";
 import { pathToRegexp } from "path-to-regexp";
-import { getPath, addBasename } from "./helpers.js";
+import { getPath, addBasename, retrieveHref, preventClick } from "./helpers.js";
 import { DefaultTransition } from "./DefaultTransition.js";
-
-function retrieveHref(element) {
-    if (element) {
-        const xlink = element.getAttribute && element.getAttribute('xlink:href');
-
-        if (typeof xlink === 'string') {
-            return xlink;
-        }
-
-        if (element.href) {
-            return element.href;
-        }
-    }
-
-    return false;
-}
-
-function preventClick(event, element) {
-    const href = retrieveHref(element);
-    const withKey = event.which > 1 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey;
-    const blankTarget = element.target && element.target === '_blank';
-    const differentDomain = window.location.protocol !== element.protocol || window.location.hostname !== element.hostname;
-    const isDownload = element.getAttribute('download') === 'string';
-    const isMailto = href && href.includes('mailto:');
-
-    const shouldPrevent = !withKey && !blankTarget && !differentDomain && !isDownload && !isMailto;
-
-    return shouldPrevent;
-}
 
 function Router({
     defaultTransition = DefaultTransition(),
@@ -50,6 +21,11 @@ function Router({
 
     window.history.scrollRestoration = scrollRestoration;
 
+    /*
+    * Register URL pattern
+    * @param {string|array} urls
+    * @param {function} fn
+    */
     function match(urls, fn) {
         if (!Array.isArray(urls)) {
             urls = [urls];
@@ -60,6 +36,13 @@ function Router({
         matches.push({ urls, fn });
     }
 
+    /*
+    * Register transition from one or multiple URLs to other(s)
+    * @param {string|array} fromURLs - 
+    * @param {string|array} toURLs - 
+    * @param {function} fn - 
+    * @param {boolean} backAndForth -
+    */
     function transition(fromURLs, toURLs, fn, backAndForth = true) {
         fromURLs = !Array.isArray(fromURLs) ? [fromURLs] : fromURLs;
         toURLs = !Array.isArray(toURLs) ? [toURLs] : toURLs;
@@ -67,6 +50,11 @@ function Router({
         transitions.push({ fromURLs, toURLs, fn, backAndForth });
     }
 
+    /*
+    * Register view for one or multiple URLs
+    * @param {string|array} urls -
+    * @param {function} fn -
+    */
     function view(urls, fn) {
         const view = fn();
 
@@ -74,11 +62,10 @@ function Router({
             urls = [urls];
         }
 
-        urls.forEach(url => {
-            const u = addBasename(url, basename);
-
-            views.set(u, view);
-        });
+        for (let i = 0; i < urls.length; i++) {
+            let url = addBasename(urls[i], basename);
+            views.set(url, view);
+        }
     }
 
     function goTo(href) {
@@ -167,7 +154,9 @@ function Router({
 
     /* 
     * Start listening to URL changes
-    * @param {object} { clickEvents, clickIgnoreClass }
+    * @param {object} options -
+    * @param {boolean} options.clickEvents - 
+    * @param {string} options.clickIgnoreClass -
     */
     function listen({ clickEvents = false, clickIgnoreClass = 'no-router' } = {}) {
         ignoreClass = clickIgnoreClass;
@@ -207,6 +196,8 @@ function Router({
         view,
         listen,
         goTo,
+        goBack: history.goBack,
+        goForward: history.goForward,
         nextLocation: () => nextLocation,
     }
 }
