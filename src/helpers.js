@@ -2,16 +2,8 @@ export function getPath(url) {
     return parse(url).path;
 }
 
-export function getHref() {
-    return window.location.href;
-}
-
-export function getOrigin() {
-    return window.location.origin;
-}
-
 export function parse(url) {
-    let path = url.replace(getOrigin(), '');
+    let path = url.replace(window.location.origin, '');
 
     return { path };
 }
@@ -51,7 +43,6 @@ export function preventClick(event, element) {
     const differentDomain = window.location.protocol !== element.protocol || window.location.hostname !== element.hostname;
     const isDownload = element.getAttribute('download') === 'string';
     const isMailto = href && href.includes('mailto:');
-
     const shouldPrevent = !withKey && !blankTarget && !differentDomain && !isDownload && !isMailto;
 
     return shouldPrevent;
