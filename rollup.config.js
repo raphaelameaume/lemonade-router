@@ -25,18 +25,10 @@ export default [
         input: 'src/Router.js',
         output: {
             name: 'Lemonade',
-            file: pkg.browser,
+            file: 'lib/lemonade-router.umd.js',
             format: 'umd'
         },
         plugins
-    },
-    {
-        input: 'src/Router.js',
-        external,
-        output: {
-            file: pkg.main,
-            format: 'cjs'
-        },
     },
     {
         input: 'src/RouterDOM.js',
@@ -46,23 +38,7 @@ export default [
             format: 'umd'
         },
         plugins
-    },
-    {
-        input: 'src/RouterDOM.js',
-        external,
-        output: { 
-            file: 'lib/lemonade-router-dom.cjs.js',
-            format: 'cjs'
-        },
-    },
-    {
-        input: 'src/index.js',
-        external: ['history', 'path-to-regexp'],
-        output: {
-            file: pkg.module,
-            format: 'es'
-        },
-    },
+    }
 ];
 
 function serve() {

@@ -2,8 +2,7 @@
   "name": "lemonade-router",
   "version": "0.1.1",
   "description": "Minimal routing library",
-  "main": "lib/lemonade-router.cjs.js",
-  "module": "lib/lemonade-router.es.js",
+  "main": "index.js",
   "scripts": {
     "dev": "NODE_ENV='development' rollup -c -w",
     "build": "NODE_ENV='production' rollup -c"
