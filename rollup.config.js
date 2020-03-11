@@ -14,7 +14,6 @@ const plugins = [
         'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
     }),
     !production && serve(),
-    !production && livereload('public'),
     production && terser()
 ];
 

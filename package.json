@@ -6,7 +6,6 @@
   "browser": "lib/lemonade-router.umd.js",
   "module": "lib/lemonade-router.es.js",
   "scripts": {
-    "start": "http-server -p 3002 ./ -c-1",
     "dev": "NODE_ENV='development' rollup -c -w",
     "build": "NODE_ENV='production' rollup -c"
   },
@@ -26,8 +25,8 @@
   },
   "homepage": "https://github.com/raphaelameaume/lemonade-router#readme",
   "dependencies": {
-    "history": "^4.10.1",
-    "path-to-regexp": "^6.1.0"
+    "history": "4.10.1",
+    "path-to-regexp": "6.1.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^11.0.2",

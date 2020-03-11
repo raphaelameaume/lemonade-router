@@ -1,5 +1,5 @@
 import { createBrowserHistory } from "history";
-import pathToRegexp from "path-to-regexp";
+import { pathToRegexp } from "path-to-regexp";
 import { getPath, retrieveHref, preventClick, stripBasename } from "./helpers.js";
 import { DefaultTransition } from "./DefaultTransition.js";
 

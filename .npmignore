@@ -1,3 +1,7 @@
-/demo
-LICENSE.md
+/examples
+/docs
+package-lock.json
+rollup.config.js
+node_modules
 .npmignore
+.gitignore
