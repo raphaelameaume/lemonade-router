@@ -1,9 +1,8 @@
 {
   "name": "lemonade-router",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Minimal routing library",
   "main": "lib/lemonade-router.cjs.js",
-  "browser": "lib/lemonade-router.umd.js",
   "module": "lib/lemonade-router.es.js",
   "scripts": {
     "dev": "NODE_ENV='development' rollup -c -w",
