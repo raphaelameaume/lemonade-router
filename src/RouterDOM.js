@@ -1,5 +1,4 @@
 import { Router } from "./Router.js";
-import { getPath } from "./helpers.js";
 import { DefaultTransitionDOM } from "./DefaultTransitionDOM.js";
 
 function RouterDOM({
@@ -31,27 +30,26 @@ function RouterDOM({
 
         router.listen({ clickEvents, clickIgnoreClass });
 
-        if (cacheEnabled) {
-            cache.set(getPath(window.location.href), document.documentElement.innerHTML);
+        if (cacheEnabled && !cache.has(window.location.pathname)) {
+            cache.set(window.location.pathname, document.documentElement.innerHTML);
         }
     }
 
     async function loadView() {
         let html;
-        let nextLocation = router.nextLocation();
+        let { nextLocation } = router;
 
         if (cacheEnabled && cache.get(nextLocation)) {
             html = cache.get(nextLocation);
         } else {
-            const response = await RouterDOM.fetch(nextLocation);
-            html = response.result;
+            html = await RouterDOM.fetch(nextLocation);
 
             if (cacheEnabled) {
                 cache.set(nextLocation, html);
             }
         }
 
-        const temp = document.createElement('div');
+        const temp = document.createElement('html');
         temp.innerHTML = html;
 
         const title = temp.querySelector('title');
@@ -63,7 +61,11 @@ function RouterDOM({
         $prevContainer = $wrapper.querySelector(containerClass);
         $nextContainer = temp.querySelector(containerClass);
 
-        return $nextContainer;
+        return {
+            prevContainer: $prevContainer,
+            nextContainer: $nextContainer,
+            temp,
+        };
     }
 
     function appendView() {
@@ -71,16 +73,19 @@ function RouterDOM({
     }
 
     function removeView() {
-        $prevContainer.parentNode.removeChild($prevContainer);
+        $wrapper.removeChild($prevContainer);
     }
 
-    return {
+    const routerDOM = {
         listen: listen,
         match: router.match,
         view: router.view,
         transition: router.transition,
         goTo: router.goTo,
-    }
+        cache,
+    };
+
+    return routerDOM;
 }
 
 RouterDOM.fetch = async (url) => {
@@ -91,11 +96,3 @@ RouterDOM.fetch = async (url) => {
 };
 
 export { RouterDOM };
-
-// RouterDOM.fetch = async () => {
-//     let html = await Thread.fetch(nextLocation, {
-//         format: 'text',
-//     });
-
-//     return html;
-// };

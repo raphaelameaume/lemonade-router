@@ -1,6 +1,6 @@
 import { createBrowserHistory } from "history";
-import { pathToRegexp } from "path-to-regexp";
-import { getPath, stripBasename, retrieveHref, preventClick } from "./helpers.js";
+import pathToRegexp from "path-to-regexp";
+import { getPath, retrieveHref, preventClick, stripBasename } from "./helpers.js";
 import { DefaultTransition } from "./DefaultTransition.js";
 
 function Router({
@@ -15,7 +15,6 @@ function Router({
 
     let history = createBrowserHistory({ basename });
     let prevView = null;
-    let nextLocation = null;
     let prevPathname = null;
     let ignoreClass = null;
 
@@ -70,12 +69,17 @@ function Router({
 
         if (path === window.location.pathname) return;
 
-        history.push(path);
+        const params = {
+            pathname: stripBasename(path, basename),
+            search: window.location.search,
+            hash: window.location.hash,
+        };
+        history.push(params);
     }
 
     async function apply(location, prevPathname) {
         try {
-            const pathname = stripBasename(location.pathname, basename);
+            const pathname = location.pathname;
 
             let nextView;
 
@@ -115,7 +119,7 @@ function Router({
             }
 
             if (nextView) {
-                nextLocation = pathname;
+                router.nextLocation = history.createHref(location);
 
                 if (transitions.length > 0) {
                     for (let i = 0; i < transitions.length; i++) {
@@ -165,7 +169,7 @@ function Router({
             apply(location, prevPathname);
         });
 
-        apply(window.location, prevPathname);
+        apply(history.location, prevPathname);
 
         if (clickEvents) {
             document.addEventListener('click', (event) => {
@@ -187,16 +191,17 @@ function Router({
         }
     }
 
-    return {
+    const router = {
+        nextLocation: null,
         match,
         transition,
         view,
         listen,
         goTo,
-        prev: history.goBack,
-        next: history.goForward,
-        nextLocation: () => nextLocation,
-    }
+        history,
+    };
+
+    return router;
 }
 
 export { Router };

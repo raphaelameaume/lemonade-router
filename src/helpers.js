@@ -8,6 +8,9 @@ export function parse(url) {
     return { path };
 }
 
+/*
+* https://github.com/ReactTraining/history/blob/3f69f9e07b0a739419704cffc3b3563133281548/modules/PathUtils.js
+*/
 export function hasBasename(path, prefix) {
     return new RegExp('^' + prefix + '(\\/|\\?|#|$)', 'i').test(path);
 }
