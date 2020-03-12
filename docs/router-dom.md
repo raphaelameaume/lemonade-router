@@ -6,7 +6,7 @@
 
 ### router = RouterDOM([options])
 - `options.wrapperQuery`: A function used to query the main wrapper. Default to `() => querySelector('.lemonade-wrapper`)`.
-- `options.containerQuery`: A function used to query the containers. Default to `() => querySelector('.lemonade-container`)`.
+- `options.containerQuery`: A function used to query the containers. Default to `(wrapper) => wrapper.querySelector('.lemonade-container`)`.
 - `options.cacheEnabled`: A boolean defining if fetched pages should be cached. Default to `true`.
 Check [`Router` documentation](./router.md) for other available options.
 
