@@ -14,10 +14,10 @@ Check [`Router` documentation](./router.md) for other available options.
 Check [`Router` documentation](./router.md) for available options.
 
 ### router.view(url, fn)
-See [`Router` documentation](./router.md#router.view(url,fn))
+See [`Router` documentation](./router.md#routerviewurl-fn))
 
 ### router.transition(from, to, fn, backAndForth)
-See [`Router` documentation](./router.md#router.transition(from, to, fn, backAndForth))
+See [`Router` documentation](./router.md#routertransitionfrom-to-fn-backandforth)
 
 ### router.match(pattern, fn)
-See [`Router` documentation](./router.md#router.match(pattern, fn))
+See [`Router` documentation](./router.md#routermatchpattern-fn)
