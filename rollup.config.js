@@ -1,9 +1,7 @@
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import replace from '@rollup/plugin-replace';
-import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
-import pkg from './package.json';
 
 const production = process.env.NODE_ENV === 'production';
 
@@ -16,8 +14,6 @@ const plugins = [
     !production && serve(),
     production && terser()
 ];
-
-const external = ['history', 'path-to-regexp'];
 
 export default [
     // browser-friendly UMD build
@@ -40,20 +36,3 @@ export default [
         plugins
     }
 ];
-
-function serve() {
-    // let started = false;
-
-    // return {
-    //     writeBundle() {
-    //         if (!started) {
-    //             started = true;
-
-    //             require('child_process').spawn('npm', ['run', 'start'], {
-    //                 stdio: ['ignore', 'inherit', 'inherit'],
-    //                 shell: true
-    //             });
-    //         }
-    //     }
-    // };
-}
