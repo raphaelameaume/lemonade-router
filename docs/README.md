@@ -3,8 +3,8 @@
 ---
 
 API docs
-- [`Router` documentation](./API.md#Router)
-- `RouterDOM`: (Coming soon)
+- [`Router` documentation](./router.md)
+- [`RouterDOM` documentation](./router-dom.md)
 
 Guide
 - [Register a view](./GUIDE.md#register-a-view)

@@ -2,9 +2,8 @@ import { Router } from "./Router.js";
 import { DefaultTransitionDOM } from "./DefaultTransitionDOM.js";
 
 function RouterDOM({
-    wrapperClass = '.lemonade-wrapper',
-    containerClass = '.lemonade-container',
-    ignoreClass = 'no-router',
+    wrapperQuery = () => document.querySelector('.lemonade-wrapper'),
+    containerQuery = ($wrapper) => $wrapper.querySelector('.lemonade-container'),
     cacheEnabled = true,
     defaultTransition = DefaultTransitionDOM(),
     transitionParams = {},
@@ -25,8 +24,8 @@ function RouterDOM({
     let $wrapper, $prevContainer, $nextContainer;
 
     function listen({ clickEvents = false, clickIgnoreClass = 'no-router' } = {}) {
-        $wrapper = document.querySelector(wrapperClass);
-        $prevContainer = $wrapper.querySelector(containerClass);
+        $wrapper = wrapperQuery();
+        $prevContainer = containerQuery($wrapper);
 
         router.listen({ clickEvents, clickIgnoreClass });
 
@@ -58,8 +57,8 @@ function RouterDOM({
             document.title = title.textContent;
         }
 
-        $prevContainer = $wrapper.querySelector(containerClass);
-        $nextContainer = temp.querySelector(containerClass);
+        $prevContainer = containerQuery($wrapper);
+        $nextContainer = containerQuery(temp);
 
         return {
             prevContainer: $prevContainer,
