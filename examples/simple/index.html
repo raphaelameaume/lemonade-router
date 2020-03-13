@@ -101,7 +101,7 @@
         let router = Lemonade.Router({
             basename: '/examples/simple',
         });
-        router.view(['/', '/home'], Home);
+        router.view(['', '/home'], Home);
 
         router.match('/about', async () => {
             router.view('/about', About);
