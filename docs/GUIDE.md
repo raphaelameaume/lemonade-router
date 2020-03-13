@@ -80,5 +80,20 @@ router.match('/news/:slug', async ({ url, params }) => {
 }) 
 ```
 
+## [RouterDOM] Use a custom fetch function
+By default, RouterDOM fetch the next page using the `fetch` API. In some cases you'll want to provide your own fetch function. To do so, you can overwrite the fetch function on RouterDOM. Be careful as Router.fetch expect a function returning a `Promise` in order to work.
 
+```js
+import { RouterDOM } from "lemonade-router";
 
+RouterDOM.fetch = (url) => {
+    return new Promise((resolve, reject) => {
+        let xhr = new XMLHttpRequest();
+        xhr.addEventListener("load", () => {
+            resolve(xhr.responseText);
+        });
+        xhr.open("GET", url);
+        xhr.send();
+    });
+};
+```
