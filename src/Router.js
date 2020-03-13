@@ -1,6 +1,6 @@
 import { createBrowserHistory } from "history";
 import { pathToRegexp } from "path-to-regexp";
-import { getPath, retrieveHref, preventClick, stripBasename } from "./helpers.js";
+import { getPath, retrieveHref, preventClick, stripBasename, stripTrailingSlash } from "./helpers.js";
 import { DefaultTransition } from "./DefaultTransition.js";
 
 function Router({
@@ -16,7 +16,6 @@ function Router({
     let history = createBrowserHistory({ basename });
     let prevView = null;
     let prevPathname = null;
-    let ignoreClass = null;
 
     window.history.scrollRestoration = scrollRestoration;
 
@@ -60,12 +59,13 @@ function Router({
         }
 
         for (let i = 0; i < urls.length; i++) {
-            views.set(urls[i], view);
+            let url = stripTrailingSlash(urls[i]);
+            views.set(url, view);
         }
     }
 
     function goTo(href) {
-        let path = getPath(href);
+        const path = getPath(href);
 
         if (path === window.location.pathname) return;
 
@@ -79,7 +79,7 @@ function Router({
 
     async function apply(location, prevPathname) {
         try {
-            const pathname = location.pathname;
+            const pathname = stripTrailingSlash(location.pathname);
 
             let nextView;
 
@@ -160,7 +160,7 @@ function Router({
     * @param {string} options.clickIgnoreClass -
     */
     function listen({ clickEvents = false, clickIgnoreClass = 'no-router' } = {}) {
-        ignoreClass = clickIgnoreClass;
+        router.clickIgnoreClass = clickIgnoreClass;
         prevPathname = getPath(window.location.href);
 
         history.listen((location) => {
@@ -179,7 +179,7 @@ function Router({
                     target = target.parentNode;
                 }
 
-                if (target && preventClick(event, target) && !target.classList.contains(ignoreClass)) {
+                if (target && preventClick(event, target) && !target.classList.contains(router.clickIgnoreClass)) {
                     event.preventDefault();
                     event.stopPropagation();
 
@@ -193,6 +193,7 @@ function Router({
 
     const router = {
         nextLocation: null,
+        clickIgnoreClass: 'no-router',
         match,
         transition,
         view,

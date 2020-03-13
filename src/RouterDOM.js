@@ -12,7 +12,6 @@ function RouterDOM({
     let router = Router({
         defaultTransition,
         basename,
-        ignoreClass,
         transitionParams: {
             ...transitionParams,
             loadView,

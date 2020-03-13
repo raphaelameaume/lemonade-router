@@ -19,6 +19,10 @@ export function stripBasename(path, prefix) {
     return hasBasename(path, prefix) ? path.substr(prefix.length) : path;
 }
 
+export function stripTrailingSlash(path) {
+    return path.charAt(path.length - 1) === '/' ? path.slice(0, -1) : path;
+}
+
 /*
 * https://github.com/barbajs/barba/blob/1.x/src/Pjax/Pjax.js#L179
 */ 
