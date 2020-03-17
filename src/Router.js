@@ -87,7 +87,7 @@ function Router({
                     for (let j = 0; j < urls.length; j++) {
                         const keys = [];
                         const regex = urls[j] === '*' ? /^\/.*(?:\/)?$/i : pathToRegexp(urls[j], keys);
-                        const match = regex.exec(pathname);
+                        const match = pathname !== "" ? regex.exec(pathname) : regex.exec('/');
 
                         if (match && match.length > 0) {
                             const [url, ...values] = match;
