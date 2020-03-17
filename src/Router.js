@@ -69,12 +69,7 @@ function Router({
 
         if (path === window.location.pathname) return;
 
-        const params = {
-            pathname: stripBasename(path, basename),
-            search: window.location.search,
-            hash: window.location.hash,
-        };
-        history.push(params);
+        history.push(stripBasename(path, basename));
     }
 
     async function apply(location, prevPathname) {
