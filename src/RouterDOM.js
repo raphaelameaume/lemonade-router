@@ -17,6 +17,8 @@ function RouterDOM({
             loadView,
             appendView,
             removeView,
+            wrapperQuery,
+            containerQuery,
         }
     });
     let cache = new Map();
