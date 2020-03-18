@@ -1,5 +1,5 @@
-import { createBrowserHistory } from "history";
-import { pathToRegexp } from "path-to-regexp";
+import { createBrowserHistory, parsePath } from "history";
+import { pathToRegexp } from "path-to-regexp";
 import { getPath, retrieveHref, preventClick, stripBasename, stripTrailingSlash } from "./helpers.js";
 import { DefaultTransition } from "./DefaultTransition.js";
 
@@ -65,11 +65,14 @@ function Router({
     }
 
     function goTo(href) {
-        const path = getPath(href);
+        const { pathname, search, hash } = parsePath(getPath(window.location.href));
 
-        if (path === window.location.pathname) return;
+        const nextPath = getPath(href);
+        const { pathname: nextPathname, search: nextSearch, hash: nextHash } = parsePath(nextPath);
 
-        history.push(stripBasename(path, basename));
+        if (pathname === nextPathname && search === nextSearch && hash === nextHash) return;
+
+        history.push(stripBasename(nextPath, basename));
     }
 
     async function apply(location, prevPathname) {
@@ -119,7 +122,7 @@ function Router({
                 if (transitions.length > 0) {
                     for (let i = 0; i < transitions.length; i++) {
                         const { fromURLs, toURLs, backAndForth, fn } = transitions[i];
-
+                        
                         const matchFrom = fromURLs.includes('*') || fromURLs.includes(prevPathname);
                         const reverseMatchFrom = backAndForth && fromURLs.includes(pathname);
                         const matchTo = toURLs.includes('*') || toURLs.includes(pathname);
@@ -156,12 +159,13 @@ function Router({
     */
     function listen({ clickEvents = false, clickIgnoreClass = 'no-router' } = {}) {
         router.clickIgnoreClass = clickIgnoreClass;
-        prevPathname = getPath(window.location.href);
+
+        prevPathname = stripBasename(parsePath(getPath(window.location.href)).pathname, basename);
 
         history.listen((location) => {
-            prevPathname = getPath(window.location.href);
-
             apply(location, prevPathname);
+
+            prevPathname = stripBasename(location.pathname, basename);
         });
 
         apply(history.location, prevPathname);
