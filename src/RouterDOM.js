@@ -82,6 +82,7 @@ function RouterDOM({
         view: router.view,
         transition: router.transition,
         goTo: router.goTo,
+        getPath: router.getPath,
         cache,
     };
 

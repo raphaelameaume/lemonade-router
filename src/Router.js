@@ -199,6 +199,7 @@ function Router({
         listen,
         goTo,
         history,
+        getPath: (url) => stripBasename(getPath(url), basename),
     };
 
     return router;
