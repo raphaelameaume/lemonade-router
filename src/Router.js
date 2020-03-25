@@ -168,7 +168,7 @@ function Router({
             prevPathname = stripBasename(location.pathname, basename);
         });
 
-        apply(history.location, prevPathname);
+        apply(history.location, null);
 
         if (clickEvents) {
             document.addEventListener('click', (event) => {
