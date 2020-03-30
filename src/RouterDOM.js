@@ -30,22 +30,24 @@ function RouterDOM({
 
         router.listen({ clickEvents, clickIgnoreClass });
 
-        if (cacheEnabled && !cache.has(window.location.pathname)) {
-            cache.set(window.location.pathname, document.documentElement.innerHTML);
+        let path = router.getPath(window.location.href);
+        if (cacheEnabled && !cache.has(path)) {
+            cache.set(path, document.documentElement.innerHTML);
         }
     }
 
     async function loadView() {
         let html;
         let { nextLocation } = router;
+        let nextPath = router.getPath(nextLocation);
 
-        if (cacheEnabled && cache.get(nextLocation)) {
-            html = cache.get(nextLocation);
+        if (cacheEnabled && routerDOM.cache.get(nextPath)) {
+            html = cache.get(nextPath);
         } else {
             html = await RouterDOM.fetch(nextLocation);
 
             if (cacheEnabled) {
-                cache.set(nextLocation, html);
+                cache.set(nextPath, html);
             }
         }
 
