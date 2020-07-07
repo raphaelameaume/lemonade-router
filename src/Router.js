@@ -131,17 +131,25 @@ function Router({
                         if ((matchFrom && matchTo) || (reverseMatchFrom && reverseMatchTo)) {
                             const transition = await fn();
 
-                            await transition.play(prevView, nextView, transitionParams);
+                            let currentPrevView = prevView;
+                            let currentNextView = nextView;
+                            prevView = nextView;
 
-                            prevView = nextView;
+                            await transition.play(currentPrevView, currentNextView, transitionParams);
                         } else {
-                            await defaultTransition.play(prevView, nextView, transitionParams);
+                            let currentPrevView = prevView;
+                            let currentNextView = nextView;
                             prevView = nextView;
+
+                            await defaultTransition.play(currentPrevView, currentNextView, transitionParams);
                         }
                     }
                 } else {
-                    await defaultTransition.play(prevView, nextView, transitionParams);
+                    let currentPrevView = prevView;
+                    let currentNextView = nextView;
                     prevView = nextView;
+
+                    await defaultTransition.play(currentPrevView, currentNextView, transitionParams);
                 }
             } else {
                 console.error('Router :: View not found', views);
