@@ -6,7 +6,6 @@ import { DefaultTransition } from "./DefaultTransition.js";
 function Router({
     defaultTransition = DefaultTransition(),
     basename = '',
-    scrollRestoration = 'auto',
     transitionParams = {},
 } = {}) {
     const matches = [];
@@ -16,8 +15,6 @@ function Router({
     let history = createBrowserHistory({ basename });
     let prevView = null;
     let prevPathname = null;
-
-    window.history.scrollRestoration = scrollRestoration;
 
     /*
     * Register URL pattern
