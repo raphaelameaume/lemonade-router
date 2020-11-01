@@ -80,6 +80,7 @@ function RouterDOM({
 
     const routerDOM = {
         listen: listen,
+        history: router.history,
         match: router.match,
         view: router.view,
         transition: router.transition,
