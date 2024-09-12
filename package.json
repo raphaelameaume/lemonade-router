@@ -24,7 +24,7 @@
   "homepage": "https://github.com/raphaelameaume/lemonade-router#readme",
   "dependencies": {
     "history": "4.10.1",
-    "path-to-regexp": "6.1.0"
+    "path-to-regexp": "6.3.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^11.0.2",
